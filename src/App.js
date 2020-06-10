@@ -39,6 +39,18 @@ updateTodosToShow = (s) =>{
   })
 }
 
+handleDelete = id =>{
+  this.setState({
+    todos:this.state.todos.filter(todo => todo.id !== id)
+  });
+};
+
+removeAllCompletedTodos = () =>{
+  this.setState({
+    todos:this.state.todos.filter(todo => !todo.complete)
+  });
+};
+
   render(){
     let todos = [];
 
@@ -59,6 +71,7 @@ updateTodosToShow = (s) =>{
       {todos.map(todo =>(
         <Todo key = {todo.id} 
         toggleComplete = {() => this.toggleComplete(todo.id)}
+        onDelete={()=>this.handleDelete(todo.id)}
         todo = {todo}></Todo>
       ))}
       <div>
@@ -67,6 +80,10 @@ updateTodosToShow = (s) =>{
       <button onClick = {() =>this.updateTodosToShow("all")}>All</button>
       <button onClick = {() =>this.updateTodosToShow("Active")}>Active</button>
       <button onClick = {() =>this.updateTodosToShow("Completed")}>Completed</button>
+      {this.state.todos.filter(todo => todo.complete).length?
+      <button onClick = {() =>this.removeAllCompletedTodos()}>Remove Completed</button>
+      :null}
+      
       </div>
     )
   }
